@@ -3,6 +3,8 @@ package org.knowm.xchange.cryptopia.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.knowm.xchange.Exchange;
@@ -59,5 +61,15 @@ public class CryptopiaMarketDataServiceIntegration {
     log.info(ticker.toString());
 
     assertThat(ticker).isNotNull();
+  }
+
+  @Test
+  public void testGetTickers() throws IOException {
+    List<Ticker> tickers = marketDataService.getTickers(null);
+
+    log.info(String.valueOf(tickers.size()) + " tickers");
+
+    assertThat(tickers).isNotNull();
+    assertThat(tickers.size() > 10);
   }
 }

@@ -69,9 +69,10 @@ public class CryptopiaAdaptersTest {
         mapper.readValue(is, CryptopiaBaseResponseCryptopiaTicker.class);
     is.close();
 
-    Ticker ticker = CryptopiaAdapters.adaptTicker(cryptopiaTicker.getData(), CurrencyPair.ETH_BTC);
+    Ticker ticker = CryptopiaAdapters.adaptTicker(cryptopiaTicker.getData());
     assertThat(ticker).isNotNull();
 
+    assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.ETH_BTC);
     assertThat(ticker.getLast().toString()).isEqualTo("0.07963205");
     assertThat(ticker.getBid().toString()).isEqualTo("0.07963206");
     assertThat(ticker.getAsk().toString()).isEqualTo("0.08003570");
