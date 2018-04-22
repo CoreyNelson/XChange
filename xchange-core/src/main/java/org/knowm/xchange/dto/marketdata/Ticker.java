@@ -13,7 +13,7 @@ import org.knowm.xchange.utils.DateUtils;
  *
  * <p>A ticker contains data representing the latest trade.
  */
-public final class Ticker implements Serializable {
+public class Ticker implements Serializable {
 
   private final CurrencyPair currencyPair;
   private final BigDecimal open;
@@ -48,7 +48,7 @@ public final class Ticker implements Serializable {
    * @param bidSize The instantaneous size at the bid price
    * @param askSize The instantaneous size at the ask price
    */
-  private Ticker(
+  protected Ticker(
       CurrencyPair currencyPair,
       BigDecimal open,
       BigDecimal last,
