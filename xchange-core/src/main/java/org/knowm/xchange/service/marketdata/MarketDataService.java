@@ -2,6 +2,8 @@ package org.knowm.xchange.service.marketdata;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -73,6 +75,10 @@ public interface MarketDataService extends BaseService {
   default OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
+
+    default List<OrderBook> getOrderBooks(Set<? extends CurrencyPair> pairs, int depth) throws IOException {
+        throw new NotYetImplementedForExchangeException();
+    }
 
   /**
    * Get the trades recently performed by the exchange
