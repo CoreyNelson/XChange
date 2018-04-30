@@ -44,6 +44,17 @@ public class CryptopiaMarketDataServiceIntegration {
   }
 
   @Test
+  public void testGetOrderBooks() throws IOException {
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_BTC);
+
+    log.info(orderBook.toString());
+
+    assertThat(orderBook).isNotNull();
+    assertThat(orderBook.getBids().size()).isGreaterThan(1);
+    assertThat(orderBook.getAsks().size()).isGreaterThan(1);
+  }
+
+  @Test
   public void testGetTrades() throws IOException {
     Trades trades = marketDataService.getTrades(CurrencyPair.ETH_BTC);
 

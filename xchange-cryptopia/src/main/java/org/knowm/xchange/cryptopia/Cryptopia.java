@@ -77,8 +77,14 @@ public interface Cryptopia {
   @GET
   @Path("GetMarketOrders/{market}/{orderCount}")
   CryptopiaBaseResponse<CryptopiaOrderBook> getMarketOrders(
-      @PathParam("market") String pair, @PathParam("orderCount") long orderCount)
-      throws IOException;
+          @PathParam("market") String pair, @PathParam("orderCount") long orderCount)
+          throws IOException;
+
+  @GET
+  @Path("GetMarketOrderGroups/{markets}/{orderCount}")
+  CryptopiaBaseResponse<List<CryptopiaOrderBook>> getMarketOrderGroups(
+          @PathParam("markets") String markets, @PathParam("orderCount") long orderCount)
+          throws IOException;
 
   @POST
   @Path("GetBalance")

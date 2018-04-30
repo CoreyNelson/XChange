@@ -76,7 +76,7 @@ public interface MarketDataService extends BaseService {
     throw new NotYetImplementedForExchangeException();
   }
 
-    default List<OrderBook> getOrderBooks(Set<? extends CurrencyPair> pairs, int depth) throws IOException {
+    default List<OrderBook> getOrderBooks(List<? extends CurrencyPair> pairs, int depth) throws IOException {
         throw new NotYetImplementedForExchangeException();
     }
 
