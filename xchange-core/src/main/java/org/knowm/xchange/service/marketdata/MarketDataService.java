@@ -76,6 +76,14 @@ public interface MarketDataService extends BaseService {
     throw new NotYetImplementedForExchangeException();
   }
 
+  /**
+   * Gets a list of OrderBooks.
+   * @param pairs The currency pairs you want order books for. Be careful that the request URL doesn't exceed 256 chars.
+   *              You probably should request more than 25 currency pairs.
+   * @param depth The depth of the requested order books.
+   * @return List of OrderBooks
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   */
     default List<OrderBook> getOrderBooks(List<? extends CurrencyPair> pairs, int depth) throws IOException {
         throw new NotYetImplementedForExchangeException();
     }
