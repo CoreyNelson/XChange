@@ -1,5 +1,8 @@
 package org.knowm.xchange.cryptopia.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptopia.CryptopiaAdapters;
 import org.knowm.xchange.cryptopia.CryptopiaExchange;
@@ -9,9 +12,10 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.marketdata.params.CurrencyPairsParam;
 import org.knowm.xchange.service.marketdata.params.Params;
 import org.knowm.xchange.utils.Assert;
-
+import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,15 +41,21 @@ public class CryptopiaMarketDataService extends CryptopiaMarketDataServiceRaw
         return CryptopiaAdapters.adaptTicker(getCryptopiaTicker(currencyPair));
     }
 
-    @Override
-    public List<Ticker> getTickers(Params params) throws IOException {
-        return getCryptopiaMarkets().stream()
-                .map(CryptopiaAdapters::adaptTicker)
-                .collect(Collectors.toList());
+  @Override
+  public List<Ticker> getTickers(Params params) throws IOException {
+    final List<CurrencyPair> currencyPairs = new ArrayList<>();
+    if (params instanceof CurrencyPairsParam) {
+      currencyPairs.addAll(((CurrencyPairsParam) params).getCurrencyPairs());
     }
-
-    private CryptopiaExchange getCryptopiaExchange() {
-        return (CryptopiaExchange) exchange;
+    return getCryptopiaMarkets()
+        .stream()
+        .map(
+            cryptopiaTicker ->
+                CryptopiaAdapters.adaptTicker(
+                    cryptopiaTicker))
+        .filter(
+            ticker -> currencyPairs.size() == 0 || currencyPairs.contains(ticker.getCurrencyPair()))
+        .collect(Collectors.toList());
     }
 
     @Override
