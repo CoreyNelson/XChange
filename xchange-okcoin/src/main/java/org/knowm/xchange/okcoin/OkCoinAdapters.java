@@ -20,7 +20,6 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
-import org.knowm.xchange.dto.account.FundingRecord.Type;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -381,45 +380,68 @@ public final class OkCoinAdapters {
   }
 
   public static List<FundingRecord> adaptFundingHistory(
-      final OkCoinAccountRecords okCoinAccountRecordsList, FundingRecord.Type type) {
+      final OkCoinAccountRecords[] okCoinAccountRecordsList) {
     final List<FundingRecord> fundingRecords = new ArrayList<>();
-    if (okCoinAccountRecordsList != null) {
-      final Currency c = Currency.getInstance(okCoinAccountRecordsList.getSymbol());
-      for (OkCoinRecords okCoinRecordEntry : okCoinAccountRecordsList.getRecords()) {
+    if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0) {
+      final OkCoinAccountRecords depositRecord = okCoinAccountRecordsList[0];
+      if (depositRecord != null) {
+        final Currency depositCurrency = Currency.getInstance(depositRecord.getSymbol());
+        for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
 
-        FundingRecord.Status status = null;
-        if (okCoinRecordEntry.getStatus() != null) {
-          if (type == Type.DEPOSIT) {
+          FundingRecord.Status status = null;
+          if (okCoinRecordEntry.getStatus() != null) {
             final OkCoinRecords.RechargeStatus rechargeStatus =
                 OkCoinRecords.RechargeStatus.fromInt(okCoinRecordEntry.getStatus());
             if (rechargeStatus != null) {
               status = FundingRecord.Status.resolveStatus(rechargeStatus.getStatus());
             }
-          } else { // WITHDRAWAL
+          }
+
+          fundingRecords.add(
+              new FundingRecord(
+                  okCoinRecordEntry.getAddress(),
+                  adaptDate(okCoinRecordEntry.getDate()),
+                  depositCurrency,
+                  okCoinRecordEntry.getAmount(),
+                  null,
+                  null,
+                  FundingRecord.Type.DEPOSIT,
+                  status,
+                  null,
+                  okCoinRecordEntry.getFee(),
+                  null));
+        }
+      }
+      final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
+      if (withdrawalRecord != null) {
+        final Currency withdrawalCurrency = Currency.getInstance(withdrawalRecord.getSymbol());
+        for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
+
+          FundingRecord.Status status = null;
+          if (okCoinRecordEntry.getStatus() != null) {
             final OkCoinRecords.WithdrawalStatus withdrawalStatus =
                 OkCoinRecords.WithdrawalStatus.fromInt(okCoinRecordEntry.getStatus());
             if (withdrawalStatus != null) {
               status = FundingRecord.Status.resolveStatus(withdrawalStatus.getStatus());
             }
           }
-        }
 
-        fundingRecords.add(
-            new FundingRecord(
-                okCoinRecordEntry.getAddress(),
-                adaptDate(okCoinRecordEntry.getDate()),
-                c,
-                okCoinRecordEntry.getAmount(),
-                null,
-                null,
-                type,
-                status,
-                null,
-                okCoinRecordEntry.getFee(),
-                null));
+          fundingRecords.add(
+              new FundingRecord(
+                  okCoinRecordEntry.getAddress(),
+                  adaptDate(okCoinRecordEntry.getDate()),
+                  withdrawalCurrency,
+                  okCoinRecordEntry.getAmount(),
+                  null,
+                  null,
+                  FundingRecord.Type.WITHDRAWAL,
+                  status,
+                  null,
+                  okCoinRecordEntry.getFee(),
+                  null));
+        }
       }
     }
-
     return fundingRecords;
   }
 }

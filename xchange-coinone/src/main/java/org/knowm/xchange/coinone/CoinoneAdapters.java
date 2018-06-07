@@ -100,63 +100,38 @@ public final class CoinoneAdapters {
     balances.add(
         new Balance(
             Currency.getInstance("KRW"),
-            coninoneResponse.getKrw().getBalance(),
-            coninoneResponse.getKrw().getAvail()));
+            new BigDecimal(coninoneResponse.getKrw().getBalance()),
+            new BigDecimal(coninoneResponse.getKrw().getAvail())));
     balances.add(
         new Balance(
             Currency.getInstance("BCH"),
-            coninoneResponse.getBch().getBalance(),
-            coninoneResponse.getBch().getAvail()));
-    balances.add(
-        new Balance(
-            Currency.getInstance("BTG"),
-            coninoneResponse.getBtg().getBalance(),
-            coninoneResponse.getBtg().getAvail()));
-    balances.add(
-        new Balance(
-            Currency.getInstance("IOTA"),
-            coninoneResponse.getIota().getBalance(),
-            coninoneResponse.getIota().getAvail()));
-    balances.add(
-        new Balance(
-            Currency.getInstance("EOS"),
-            coninoneResponse.getEos().getBalance(),
-            coninoneResponse.getEos().getAvail()));
-    balances.add(
-        new Balance(
-            Currency.getInstance("OMG"),
-            coninoneResponse.getOmg().getBalance(),
-            coninoneResponse.getOmg().getAvail()));
-    balances.add(
-        new Balance(
-            Currency.getInstance("LTC"),
-            coninoneResponse.getLtc().getBalance(),
-            coninoneResponse.getLtc().getAvail()));
+            new BigDecimal(coninoneResponse.getBch().getBalance()),
+            new BigDecimal(coninoneResponse.getBch().getAvail())));
     balances.add(
         new Balance(
             Currency.getInstance("BTC"),
-            coninoneResponse.getBtc().getBalance(),
-            coninoneResponse.getBtc().getAvail()));
+            new BigDecimal(coninoneResponse.getBtc().getBalance()),
+            new BigDecimal(coninoneResponse.getBtc().getAvail())));
     balances.add(
         new Balance(
             Currency.getInstance("ETC"),
-            coninoneResponse.getEtc().getBalance(),
-            coninoneResponse.getEtc().getAvail()));
+            new BigDecimal(coninoneResponse.getEtc().getBalance()),
+            new BigDecimal(coninoneResponse.getEtc().getAvail())));
     balances.add(
         new Balance(
             Currency.getInstance("ETH"),
-            coninoneResponse.getEth().getBalance(),
-            coninoneResponse.getEth().getAvail()));
+            new BigDecimal(coninoneResponse.getEth().getBalance()),
+            new BigDecimal(coninoneResponse.getEth().getAvail())));
     balances.add(
         new Balance(
             Currency.getInstance("QTUM"),
-            coninoneResponse.getQtum().getBalance(),
-            coninoneResponse.getQtum().getAvail()));
+            new BigDecimal(coninoneResponse.getQtum().getBalance()),
+            new BigDecimal(coninoneResponse.getQtum().getAvail())));
     balances.add(
         new Balance(
             Currency.getInstance("XRP"),
-            coninoneResponse.getXrp().getBalance(),
-            coninoneResponse.getXrp().getAvail()));
+            new BigDecimal(coninoneResponse.getXrp().getBalance()),
+            new BigDecimal(coninoneResponse.getXrp().getAvail())));
     return new Wallet(balances);
   }
 

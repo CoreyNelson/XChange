@@ -16,6 +16,7 @@ The following list of authors was automatically generated from the XChange proje
 
     git log --format='%aN' | sort -u
 
+小田謙太郎
 =
 Achterhoeker
 Adam from WALCZAK.IT
@@ -27,7 +28,6 @@ Alexey Z
 Allen Day
 Alvin Singh
 Andraž
-Andrea Fossi
 André Reiter
 Anthony Tsang
 Arthurm1
@@ -48,7 +48,6 @@ Chris Rico
 Christian Strässle
 Cray Imperative
 Cristian Lucaci
-Cyril
 Daniel Cohen
 Danilo Guimarães
 Dave Seyb
@@ -134,13 +133,10 @@ Mikelle
 Mikhail Wall
 Miso Oprendek
 Muffon
-Nathan King
 Nicolas Pinot
-Nikita Belenkiy
 Niko Schmuck
 Norbert Sándor
 ObsessiveOrange
-Oleg Danilov
 Oleg Khomenko
 Oliver Drotleff
 Oscar Francia
@@ -153,8 +149,8 @@ Peter N. Steinmetz
 Piotr Ladyzynski
 Piotr Ładyżyński
 Radu
-Rafal Krupinski
 Rafał Krupiński
+Rafal Krupinski
 Raphael Voellmy
 Richard Flint
 Robert Felker
@@ -167,13 +163,10 @@ Sebastiaan van Erk
 Sergey Belyakov
 Sergey Lukashevich
 Sergey Tselovalnikov
-Sergii Pogodin
 Sergio Rodriguez
 Sikerdebaard
-Snailz
 Stuart Low
 Sumedha Saxena
-Sylvain
 Sébastien Koch
 TM Lee
 The Gitter Badger
@@ -205,11 +198,8 @@ Zorge.R
 ahmetoz
 ajdev
 aleks-azen
-aleksazen@gmail.com
 alessandro luppi
 alobarev
-amjad1210
-anton
 anw
 apaygh
 artvel
@@ -220,7 +210,6 @@ bolobox
 boppleton
 brilliantnut
 bronko
-bronoman
 brox
 cacofish
 cacofishadct
@@ -244,14 +233,10 @@ gmorpheme
 godoorsun
 gpwclark
 hardsky
-hbwhyte
 henry
-huguanrui
 hurricup
-interwater
 ivan.kosianenko
 jamespedwards42
-jasonliu119
 jclaruelle
 jcuypers
 johndemic
@@ -270,10 +255,8 @@ mazi
 mdeverdelhan
 mfarid
 mharris021
-michaelscheung
 miho
 mnapier
-moardm
 nakedpony
 nicostouch
 nimrood
@@ -282,12 +265,10 @@ nxtpool@gmail.com
 o
 odaken
 paul
-pchertalev
 perlboy
 piotr
 pnkwpk
 pozheg
-procyon
 seanrobb
 sebastienkoch
 semihunaldi
@@ -302,17 +283,12 @@ stephane-coulomb
 stevenuray
 suchac
 swiesend
-taoruifu
 tbosman
 tim
 timmolter
-trix
-trix13
 veken0m
 vulicevic
 will
 wvr
 ww3456
 zholmes
-陈晔
-小田謙太郎

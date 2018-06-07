@@ -15,7 +15,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import si.mazi.rescu.IRestProxyFactory;
 
@@ -115,7 +114,6 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     String market = null;
     String orderStatus = null;
     String orderType = null;
-    Integer limit = null;
 
     BleutradeTradeHistoryParams bleutradeTradeHistoryParams;
 
@@ -124,12 +122,6 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
       market = bleutradeTradeHistoryParams.market;
       orderStatus = bleutradeTradeHistoryParams.orderStatus;
       orderType = bleutradeTradeHistoryParams.orderType;
-      limit = bleutradeTradeHistoryParams.getLimit();
-    }
-
-    if (params instanceof TradeHistoryParamLimit) {
-      TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
-      limit = tradeHistoryParamLimit.getLimit();
     }
 
     if (params instanceof TradeHistoryParamCurrencyPair) {
@@ -153,13 +145,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     try {
       BluetradeExecutedTradesWrapper response =
           bleutrade.getTrades(
-              apiKey,
-              signatureCreator,
-              exchange.getNonceFactory(),
-              market,
-              orderStatus,
-              orderType,
-              limit);
+              apiKey, signatureCreator, exchange.getNonceFactory(), market, orderStatus, orderType);
 
       if (!response.success) {
         throw new ExchangeException(response.message);
@@ -171,10 +157,9 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     }
   }
 
-  public static class BleutradeTradeHistoryParams
-      implements TradeHistoryParams, TradeHistoryParamLimit {
+  public static class BleutradeTradeHistoryParams implements TradeHistoryParams {
     public static final BleutradeTradeHistoryParams ALL =
-        new BleutradeTradeHistoryParams("ALL", "OK", "ALL", 500);
+        new BleutradeTradeHistoryParams("ALL", "OK", "ALL");
 
     /** DIVIDEND_DIVISOR or ALL */
     public final String market;
@@ -185,30 +170,15 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     /** ALL, BUY, SELL */
     public final String orderType;
 
-    /** Max is 20000 */
-    public Integer limit = 500;
-
     public BleutradeTradeHistoryParams(
-        CurrencyPair currencyPair, String orderStatus, String orderType, Integer limit) {
-      this(toMarket(currencyPair), orderStatus, orderType, limit);
+        CurrencyPair currencyPair, String orderStatus, String orderType) {
+      this(toMarket(currencyPair), orderStatus, orderType);
     }
 
-    public BleutradeTradeHistoryParams(
-        String market, String orderStatus, String orderType, Integer limit) {
+    public BleutradeTradeHistoryParams(String market, String orderStatus, String orderType) {
       this.market = market;
       this.orderStatus = orderStatus;
       this.orderType = orderType;
-      this.limit = limit;
-    }
-
-    @Override
-    public Integer getLimit() {
-      return limit;
-    }
-
-    @Override
-    public void setLimit(Integer limit) {
-      this.limit = limit;
     }
   }
 }

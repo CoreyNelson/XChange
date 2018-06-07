@@ -36,7 +36,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
   public GeminiTicker getGeminiTicker(String pair) throws IOException {
 
     try {
-      GeminiTicker GeminiTicker = gemini.getTicker(pair);
+      GeminiTicker GeminiTicker = Gemini.getTicker(pair);
       return GeminiTicker;
     } catch (GeminiException e) {
       throw handleException(e);
@@ -49,9 +49,9 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
     try {
       GeminiDepth GeminiDepth;
       if (limitBids == null && limitAsks == null) {
-        GeminiDepth = gemini.getBook(pair);
+        GeminiDepth = Gemini.getBook(pair);
       } else {
-        GeminiDepth = gemini.getBook(pair, limitBids, limitAsks);
+        GeminiDepth = Gemini.getBook(pair, limitBids, limitAsks);
       }
       return GeminiDepth;
     } catch (GeminiException e) {
@@ -63,7 +63,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
       throws IOException {
 
     try {
-      GeminiLendDepth GeminiLendDepth = gemini.getLendBook(currency, limitBids, limitAsks);
+      GeminiLendDepth GeminiLendDepth = Gemini.getLendBook(currency, limitBids, limitAsks);
       return GeminiLendDepth;
     } catch (GeminiException e) {
       throw handleException(e);
@@ -74,7 +74,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
       throws IOException {
 
     try {
-      GeminiTrade[] GeminiTrades = gemini.getTrades(pair, sinceTimestamp, limitTrades);
+      GeminiTrade[] GeminiTrades = Gemini.getTrades(pair, sinceTimestamp, limitTrades);
       return GeminiTrades;
     } catch (GeminiException e) {
       throw handleException(e);
@@ -85,7 +85,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
       throws IOException {
 
     try {
-      GeminiLend[] GeminiLends = gemini.getLends(currency, sinceTimestamp, limitTrades);
+      GeminiLend[] GeminiLends = Gemini.getLends(currency, sinceTimestamp, limitTrades);
       return GeminiLends;
     } catch (GeminiException e) {
       throw handleException(e);
@@ -95,7 +95,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
   public Collection<String> getGeminiSymbols() throws IOException {
 
     try {
-      return gemini.getSymbols();
+      return Gemini.getSymbols();
     } catch (GeminiException e) {
       throw handleException(e);
     }
@@ -105,7 +105,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
 
     try {
       List<CurrencyPair> currencyPairs = new ArrayList<>();
-      for (String symbol : gemini.getSymbols()) {
+      for (String symbol : Gemini.getSymbols()) {
         currencyPairs.add(GeminiAdapters.adaptCurrencyPair(symbol));
       }
       return currencyPairs;

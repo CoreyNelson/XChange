@@ -2,6 +2,7 @@ package org.knowm.xchange.bitmarket.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmarket.BitMarketAdapters;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketAccountInfo;
@@ -9,7 +10,9 @@ import org.knowm.xchange.bitmarket.dto.account.BitMarketDepositResponse;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketWithdrawResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -63,4 +66,5 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
   }
+
 }

@@ -18,8 +18,7 @@ public class TradeHistoryParamsAll
         TradeHistoryParamsIdSpan,
         TradeHistoryParamOffset,
         TradeHistoryParamCurrencyPair,
-        TradeHistoryParamMultiCurrencyPair,
-        TradeHistoryParamLimit {
+        TradeHistoryParamMultiCurrencyPair {
 
   private Integer pageLength;
   private Integer pageNumber;
@@ -30,7 +29,6 @@ public class TradeHistoryParamsAll
   private Long offset;
   private CurrencyPair pair;
   private Collection<CurrencyPair> pairs = Collections.emptySet();
-  private Integer limit;
 
   @Override
   public Integer getPageLength() {
@@ -139,15 +137,5 @@ public class TradeHistoryParamsAll
   public void setCurrencyPairs(Collection<CurrencyPair> value) {
 
     pairs = value;
-  }
-
-  @Override
-  public Integer getLimit() {
-    return limit;
-  }
-
-  @Override
-  public void setLimit(Integer limit) {
-    this.limit = limit;
   }
 }

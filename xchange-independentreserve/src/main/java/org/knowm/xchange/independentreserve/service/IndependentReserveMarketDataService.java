@@ -4,6 +4,7 @@ import java.io.IOException;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.independentreserve.IndependentReserveAdapters;
 import org.knowm.xchange.independentreserve.IndependentReserveExchange;
 import org.knowm.xchange.independentreserve.dto.marketdata.IndependentReserveTicker;
@@ -34,4 +35,5 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
         getIndependentReserveOrderBook(
             currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()));
   }
+
 }

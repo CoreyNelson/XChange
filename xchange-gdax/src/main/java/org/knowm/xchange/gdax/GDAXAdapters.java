@@ -4,7 +4,12 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.knowm.xchange.currency.Currency;
@@ -23,11 +28,26 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.*;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.StopOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gdax.dto.GdaxTransfer;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
-import org.knowm.xchange.gdax.dto.marketdata.*;
-import org.knowm.xchange.gdax.dto.trade.*;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBookEntry;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
+import org.knowm.xchange.gdax.dto.trade.GDAXFill;
+import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXOrderFlags;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceLimitOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceMarketOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,17 +128,12 @@ public class GDAXAdapters {
         .build();
   }
 
-  public static OrderBook adaptOrderBook(
-      GDAXProductBook book, CurrencyPair currencyPair, Date date) {
+  public static OrderBook adaptOrderBook(GDAXProductBook book, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = toLimitOrderList(book.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = toLimitOrderList(book.getBids(), OrderType.BID, currencyPair);
 
-    return new OrderBook(date, asks, bids);
-  }
-
-  public static OrderBook adaptOrderBook(GDAXProductBook book, CurrencyPair currencyPair) {
-    return adaptOrderBook(book, currencyPair, null);
+    return new OrderBook(null, asks, bids);
   }
 
   private static List<LimitOrder> toLimitOrderList(
@@ -248,10 +263,6 @@ public class GDAXAdapters {
         return OrderStatus.FILLED;
       }
 
-      if (order.getDoneReason().equals("canceled")) {
-        return OrderStatus.CANCELED;
-      }
-
       return OrderStatus.UNKNOWN;
     }
 
@@ -270,8 +281,7 @@ public class GDAXAdapters {
     }
 
     if (order.getFilledSize().compareTo(BigDecimal.ZERO) > 0
-        // if size >= filledSize order should be partially filled
-        && order.getSize().compareTo(order.getFilledSize()) >= 0)
+        && order.getSize().compareTo(order.getFilledSize()) < 0)
       return OrderStatus.PARTIALLY_FILLED;
 
     return OrderStatus.UNKNOWN;
@@ -396,16 +406,16 @@ public class GDAXAdapters {
         .productId(adaptProductID(marketOrder.getCurrencyPair()))
         .type(GDAXPlaceOrder.Type.market)
         .side(adaptSide(marketOrder.getType()))
-        .size(marketOrder.getOriginalAmount())
+        .size(marketOrder.getType().equals(OrderType.BID) ? null : marketOrder.getOriginalAmount())
+        .funds(marketOrder.getType().equals(OrderType.ASK) ? null : marketOrder.getOriginalAmount())
         .build();
   }
 
   /**
-   * Creates a 'stop' order. Stop limit order converts to a limit order when the stop amount is
-   * triggered. The limit order can have a different price than the stop price.
+   * Creates a 'stop' order. Stop limit order converts to a limit order when the stop amount
+   * is triggered. The limit order can have a different price than the stop price.
    *
-   * <p>If the stop order has no limit price it will execute as a market order once the stop price
-   * is broken
+   * If the stop order has no limit price it will execute as a market order once the stop price is broken
    *
    * @param stopOrder
    * @return
@@ -418,7 +428,8 @@ public class GDAXAdapters {
           .productId(adaptProductID(stopOrder.getCurrencyPair()))
           .type(GDAXPlaceOrder.Type.market)
           .side(adaptSide(stopOrder.getType()))
-          .size(stopOrder.getOriginalAmount())
+          .size(stopOrder.getType().equals(OrderType.BID) ? null : stopOrder.getOriginalAmount())
+          .funds(stopOrder.getType().equals(OrderType.ASK) ? null : stopOrder.getOriginalAmount())
           .stop(adaptStop(stopOrder.getType()))
           .stopPrice(stopOrder.getStopPrice())
           .build();

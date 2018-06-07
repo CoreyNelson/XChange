@@ -43,20 +43,24 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    return placeMarketOrderRaw(marketOrder).id;
+    return placeMarketOrderRaw(marketOrder).clientOrderId;
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    return placeLimitOrderRaw(limitOrder).id;
+    return placeLimitOrderRaw(limitOrder).clientOrderId;
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+    HitbtcOrder cancelOrderRaw = cancelOrderRaw(orderId);
+    return "canceled".equals(cancelOrderRaw.status);
   }
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
     if (orderParams instanceof CancelOrderByIdParams) {
-      String clientOrderId = ((CancelOrderByIdParams) orderParams).getOrderId();
-      HitbtcOrder cancelOrderRaw = cancelOrderRaw(clientOrderId);
-      return "canceled".equals(cancelOrderRaw.status);
+      return cancelOrder(((CancelOrderByIdParams) orderParams).getOrderId());
     } else {
       return false;
     }
@@ -66,7 +70,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    Integer limit = 1000;
+    long limit = 1000;
     long offset = 0;
 
     if (params instanceof TradeHistoryParamLimit) {
@@ -85,7 +89,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
     }
 
     List<HitbtcOwnTrade> tradeHistoryRaw = getTradeHistoryRaw(symbol, limit, offset);
-    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
+    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getExchangeMetaData());
   }
 
   @Override
@@ -106,8 +110,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
 
     Collection<Order> orders = new ArrayList<>();
     for (String orderId : orderIds) {
-      HitbtcOrder rawOrder =
-          getHitbtcOrder("BTCUSD", orderId); // why is the currency pair hardcoded?
+      HitbtcOrder rawOrder = getHitbtcOrder("BTCUSD", orderId);
 
       if (rawOrder != null) orders.add(HitbtcAdapters.adaptOrder(rawOrder));
     }

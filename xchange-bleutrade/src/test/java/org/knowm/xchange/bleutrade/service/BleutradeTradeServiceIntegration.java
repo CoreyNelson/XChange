@@ -379,8 +379,7 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
             any(SynchronizedValueFactory.class),
             Mockito.matches("ALL"),
             any(String.class),
-            any(String.class),
-            any(Integer.class)))
+            any(String.class)))
         .thenReturn(response);
 
     // when
@@ -401,15 +400,14 @@ public class BleutradeTradeServiceIntegration extends BleutradeServiceTestSuppor
             any(SynchronizedValueFactory.class),
             Mockito.matches("BTC_AUD"),
             Mockito.matches("status"),
-            Mockito.matches("type"),
-            any(Integer.class)))
+            Mockito.matches("type")))
         .thenReturn(response);
 
     // when
     UserTrades tradeHistory =
         tradeService.getTradeHistory(
             new BleutradeTradeServiceRaw.BleutradeTradeHistoryParams(
-                CurrencyPair.BTC_AUD, "status", "type", 100));
+                CurrencyPair.BTC_AUD, "status", "type"));
     assertThat(tradeHistory.getUserTrades()).hasSize(1);
   }
 

@@ -11,8 +11,14 @@ import org.knowm.xchange.bittrex.dto.account.BittrexWithdrawalHistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.MoneroWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.RippleWithdrawFundsParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BittrexAccountService extends BittrexAccountServiceRaw implements AccountService {
 
@@ -71,7 +77,7 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements A
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return TradeHistoryParamsZero.PARAMS_ZERO;
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

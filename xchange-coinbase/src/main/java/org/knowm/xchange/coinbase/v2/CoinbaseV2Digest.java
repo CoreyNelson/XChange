@@ -1,12 +1,14 @@
 package org.knowm.xchange.coinbase.v2;
 
-import static org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated.CB_ACCESS_TIMESTAMP;
-
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.service.BaseParamsDigest;
 import org.knowm.xchange.utils.DigestUtils;
 import si.mazi.rescu.RestInvocation;
+
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.core.MediaType;
+
+import static org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated.CB_ACCESS_KEY;
+import static org.knowm.xchange.coinbase.v2.CoinbaseAuthenticated.CB_ACCESS_TIMESTAMP;
 
 public class CoinbaseV2Digest extends BaseParamsDigest {
 
@@ -22,16 +24,14 @@ public class CoinbaseV2Digest extends BaseParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
     String timestamp =
         restInvocation.getParamValue(HeaderParam.class, CB_ACCESS_TIMESTAMP).toString();
-    String methodPath =
-        "/v2" + restInvocation.getPath(); // todo  - move the /v2 bit of the path to the interface
+    String methodPath = "/v2" + restInvocation.getPath(); // todo  - move the /v2 bit of the path to the interface
     String message = timestamp + restInvocation.getHttpMethod() + methodPath;
-    String body = null; // todo - deal with POST requests
+    String body = null;//todo - deal with POST requests
 
     String sign = DigestUtils.bytesToHex(getMac().doFinal(message.getBytes()));
 
-    //      String apiKey = restInvocation.getParamValue(HeaderParam.class,
-    // CB_ACCESS_KEY).toString();
-    //      showCurl(restInvocation.getHttpMethod(), apiKey, timestamp, sign, methodPath, body);
+//      String apiKey = restInvocation.getParamValue(HeaderParam.class, CB_ACCESS_KEY).toString();
+//      showCurl(restInvocation.getHttpMethod(), apiKey, timestamp, sign, methodPath, body);
 
     return sign;
   }

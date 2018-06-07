@@ -51,7 +51,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
   }
 
   public PoloniexUserTrade[] returnTradeHistory(
-      CurrencyPair currencyPair, Long startTime, Long endTime, Integer limit) throws IOException {
+      CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
     return poloniexAuthenticated.returnTradeHistory(
         apiKey,
@@ -59,23 +59,15 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
         exchange.getNonceFactory(),
         PoloniexUtils.toPairString(currencyPair),
         startTime,
-        endTime,
-        limit);
+        endTime);
   }
 
-  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(
-      Long startTime, Long endTime, Integer limit) throws IOException {
+  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(Long startTime, Long endTime)
+      throws IOException {
 
     String ignore = null; // only used so PoloniexAuthenticated.returnTradeHistory can be overloaded
     return poloniexAuthenticated.returnTradeHistory(
-        apiKey,
-        signatureCreator,
-        exchange.getNonceFactory(),
-        "all",
-        startTime,
-        endTime,
-        limit,
-        ignore);
+        apiKey, signatureCreator, exchange.getNonceFactory(), "all", startTime, endTime, ignore);
   }
 
   public PoloniexMarginAccountResponse returnMarginAccountSummary() throws IOException {

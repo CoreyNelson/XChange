@@ -164,7 +164,6 @@ public final class BitstampAdapters {
    */
   public static Ticker adaptTicker(BitstampTicker bitstampTicker, CurrencyPair currencyPair) {
 
-    BigDecimal open = bitstampTicker.getOpen();
     BigDecimal last = bitstampTicker.getLast();
     BigDecimal bid = bitstampTicker.getBid();
     BigDecimal ask = bitstampTicker.getAsk();
@@ -176,7 +175,6 @@ public final class BitstampAdapters {
 
     return new Ticker.Builder()
         .currencyPair(currencyPair)
-        .open(open)
         .last(last)
         .bid(bid)
         .ask(ask)

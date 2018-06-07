@@ -1,8 +1,5 @@
 package org.knowm.xchange.bitbay.v3;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTrade;
 import org.knowm.xchange.bitbay.v3.dto.trade.BitbayUserTrades;
 import org.knowm.xchange.currency.Currency;
@@ -11,6 +8,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /** @author walec51 */
 public class BitbayAdapters {

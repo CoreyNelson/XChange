@@ -15,10 +15,9 @@ import org.knowm.xchange.dto.Order.OrderType;
 
 @JsonDeserialize(using = BitmexTypeDeserializer.class)
 public enum BitmexSide {
-  BUY("Buy"),
-  SELL("Sell");
+  BUY,
+  SELL;
 
-  private final String capitalized;
   private static final Map<String, BitmexSide> fromString = new HashMap<>();
 
   static {
@@ -26,10 +25,6 @@ public enum BitmexSide {
 
     fromString.put("buy", BUY);
     fromString.put("sell", SELL);
-  }
-
-  BitmexSide(String capitalized) {
-    this.capitalized = capitalized;
   }
 
   public static BitmexSide fromString(String typeString) {
@@ -40,10 +35,6 @@ public enum BitmexSide {
   public static BitmexSide fromOrderType(OrderType type) {
 
     return type == OrderType.ASK ? BitmexSide.SELL : BitmexSide.BUY;
-  }
-
-  public String getCapitalized() {
-    return capitalized;
   }
 
   @Override

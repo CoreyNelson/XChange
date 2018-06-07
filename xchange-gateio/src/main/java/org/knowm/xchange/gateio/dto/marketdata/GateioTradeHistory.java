@@ -46,14 +46,13 @@ public class GateioTradeHistory extends GateioBaseResponse {
     private final GateioOrderType type;
 
     private GateioPublicTrade(
-        @JsonProperty("date") String date,
-        @JsonProperty("rate") BigDecimal price,
+        @JsonProperty("date") long date,
+        @JsonProperty("price") BigDecimal price,
         @JsonProperty("amount") BigDecimal amount,
-        @JsonProperty("tradeID") String tradeId,
-        @JsonProperty("timestamp") long timestamp,
+        @JsonProperty("tid") String tradeId,
         @JsonProperty("type") GateioOrderType type) {
 
-      this.date = timestamp;
+      this.date = date;
       this.price = price;
       this.amount = amount;
       this.tradeId = tradeId;

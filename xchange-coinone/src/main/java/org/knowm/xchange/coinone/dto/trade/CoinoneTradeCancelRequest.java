@@ -2,9 +2,6 @@ package org.knowm.xchange.coinone.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-import java.util.Currency;
-import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.service.trade.params.CancelOrderParams;
 
 public class CoinoneTradeCancelRequest implements CancelOrderParams {
@@ -30,21 +27,36 @@ public class CoinoneTradeCancelRequest implements CancelOrderParams {
   @JsonProperty("currency")
   protected String currency;
 
+  /**
+   * Constructor
+   *
+   * @param nonce
+   */
   public CoinoneTradeCancelRequest(
-      String orderId, BigDecimal price, BigDecimal qty, boolean isAsk, Currency currency) {
+      String accessTocken,
+      Long nonce,
+      String orderId,
+      double price,
+      double qty,
+      boolean isAsk,
+      String currency) {
+
+    this.accessTocken = accessTocken;
+    this.nonce = nonce;
     this.orderId = orderId;
-    this.price = price;
-    this.qty = qty;
+    this.price = new BigDecimal(String.valueOf(price));
+    this.qty = new BigDecimal(String.valueOf(qty));
     this.isAsk = isAsk;
-    this.currency = currency.getSymbol().toLowerCase();
+    this.currency = currency;
   }
 
-  public CoinoneTradeCancelRequest(String orderId, LimitOrder limitOrder) {
+  public CoinoneTradeCancelRequest(
+      String orderId, double price, double qty, boolean isAsk, String currency) {
     this.orderId = orderId;
-    this.price = limitOrder.getLimitPrice();
-    this.qty = limitOrder.getOriginalAmount();
-    this.isAsk = limitOrder.getType() == Order.OrderType.ASK ? true : false;
-    this.currency = limitOrder.getCurrencyPair().base.getSymbol().toLowerCase();
+    this.price = new BigDecimal(String.valueOf(price));
+    this.qty = new BigDecimal(String.valueOf(qty));
+    this.isAsk = isAsk;
+    this.currency = currency;
   }
 
   public String getAccessTocken() {

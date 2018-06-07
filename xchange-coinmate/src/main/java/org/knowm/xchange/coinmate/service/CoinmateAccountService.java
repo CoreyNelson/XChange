@@ -95,7 +95,7 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
     TradeHistoryParamsSorted.Order order = TradeHistoryParamsSorted.Order.asc;
-    Integer limit = 1000;
+    int limit = 1000;
     int offset = 0;
 
     if (params instanceof TradeHistoryParamOffset) {

@@ -24,11 +24,6 @@ public final class BittrexUtils {
         + currencyPair.base.getCurrencyCode().toUpperCase();
   }
 
-  public static CurrencyPair toCurrencyPair(String pairString) {
-    String[] pairStringSplit = pairString.split("-");
-    return new CurrencyPair(pairStringSplit[1], pairStringSplit[0]);
-  }
-
   public static Date toDate(String dateString) {
 
     if (dateString == null) return null;

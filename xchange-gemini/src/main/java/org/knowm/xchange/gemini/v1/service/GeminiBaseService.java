@@ -13,7 +13,7 @@ import si.mazi.rescu.RestProxyFactory;
 public class GeminiBaseService extends BaseExchangeService implements BaseService {
 
   protected final String apiKey;
-  protected final GeminiAuthenticated gemini;
+  protected final GeminiAuthenticated Gemini;
   protected final ParamsDigest signatureCreator;
   protected final ParamsDigest payloadCreator;
 
@@ -26,7 +26,7 @@ public class GeminiBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    this.gemini =
+    this.Gemini =
         RestProxyFactory.createProxy(
             GeminiAuthenticated.class,
             exchange.getExchangeSpecification().getSslUri(),

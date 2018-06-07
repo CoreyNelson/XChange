@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,14 +41,11 @@ public class OkCoinAdaptersTest {
     OkCoinAccountRecords okCoinAccountWithdrawalRecords =
         mapper.readValue(is, OkCoinAccountRecords.class);
 
-    List<FundingRecord> deposits =
-        OkCoinAdapters.adaptFundingHistory(okCoinAccountDepositRecords, FundingRecord.Type.DEPOSIT);
-    List<FundingRecord> withdrawals =
+    final List<FundingRecord> records =
         OkCoinAdapters.adaptFundingHistory(
-            okCoinAccountWithdrawalRecords, FundingRecord.Type.WITHDRAWAL);
-    final List<FundingRecord> records = new ArrayList<>();
-    records.addAll(deposits);
-    records.addAll(withdrawals);
+            new OkCoinAccountRecords[] {
+              okCoinAccountDepositRecords, okCoinAccountWithdrawalRecords
+            });
 
     assertThat(records.size()).isEqualTo(3);
     FundingRecord depositRecord = records.get(1);

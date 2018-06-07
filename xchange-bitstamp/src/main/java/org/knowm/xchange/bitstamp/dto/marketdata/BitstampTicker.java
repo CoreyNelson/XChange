@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 /** @author Matija Mazi */
 public final class BitstampTicker {
 
-  private final BigDecimal open;
   private final BigDecimal last;
   private final BigDecimal high;
   private final BigDecimal low;
@@ -19,7 +18,6 @@ public final class BitstampTicker {
   /**
    * Constructor
    *
-   * @param open
    * @param last
    * @param high
    * @param low
@@ -29,7 +27,6 @@ public final class BitstampTicker {
    * @param ask
    */
   public BitstampTicker(
-      @JsonProperty("open") BigDecimal open,
       @JsonProperty("last") BigDecimal last,
       @JsonProperty("high") BigDecimal high,
       @JsonProperty("low") BigDecimal low,
@@ -39,7 +36,6 @@ public final class BitstampTicker {
       @JsonProperty("ask") BigDecimal ask,
       @JsonProperty("timestamp") long timestamp) {
 
-    this.open = open;
     this.last = last;
     this.high = high;
     this.low = low;
@@ -48,10 +44,6 @@ public final class BitstampTicker {
     this.bid = bid;
     this.ask = ask;
     this.timestamp = timestamp;
-  }
-
-  public BigDecimal getOpen() {
-    return open;
   }
 
   public BigDecimal getLast() {
@@ -97,9 +89,7 @@ public final class BitstampTicker {
   @Override
   public String toString() {
 
-    return "BitstampTicker [open="
-        + open
-        + ", last="
+    return "BitstampTicker [last="
         + last
         + ", high="
         + high

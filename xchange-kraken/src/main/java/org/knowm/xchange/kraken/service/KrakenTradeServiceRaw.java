@@ -188,8 +188,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     KrakenOrderBuilder orderBuilder =
         KrakenStandardOrder.getMarketOrderBuilder(
                 marketOrder.getCurrencyPair(), type, marketOrder.getOriginalAmount())
-            .withOrderFlags(marketOrder.getOrderFlags())
-            .withLeverage(marketOrder.getLeverage());
+            .withOrderFlags(marketOrder.getOrderFlags());
 
     return placeKrakenOrder(orderBuilder.buildOrder());
   }
@@ -203,8 +202,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
                 type,
                 limitOrder.getLimitPrice().toPlainString(),
                 limitOrder.getOriginalAmount())
-            .withOrderFlags(limitOrder.getOrderFlags())
-            .withLeverage(limitOrder.getLeverage());
+            .withOrderFlags(limitOrder.getOrderFlags());
 
     return placeKrakenOrder(krakenOrderBuilder.buildOrder());
   }
@@ -281,7 +279,7 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
     return checkResult(result);
   }
 
-  public Map<String, KrakenOrder> getOrders(String... orderIds) throws IOException {
+  protected Map<String, KrakenOrder> getOrders(String... orderIds) throws IOException {
 
     String orderIdsString = String.join(",", orderIds);
 
